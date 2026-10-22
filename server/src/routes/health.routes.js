@@ -38,7 +38,12 @@ router.get('/database', (req, res) => {
   return res.status(503).json({
     status: 'error',
     database: dbStatus.status,
-    message: 'MongoDB is not connected. Configure a valid MONGODB_URI in server/.env',
+    isConfigured: dbStatus.isConfigured,
+    hasMongoUri: dbStatus.hasMongoUri,
+    lastError: dbStatus.lastError,
+    message: dbStatus.hasMongoUri
+      ? (dbStatus.lastError || 'MongoDB Atlas connection failed. Ensure 0.0.0.0/0 is whitelisted in Atlas Network Access.')
+      : 'MONGODB_URI is missing in environment variables. Add MONGODB_URI in Vercel Settings and trigger a Redeploy.',
     timestamp: new Date().toISOString(),
   });
 });

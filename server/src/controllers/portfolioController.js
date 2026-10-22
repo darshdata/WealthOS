@@ -8,6 +8,7 @@ import {
   seedHistoricalSnapshotsForUser,
 } from '../services/snapshotService.js';
 import { getServerMarketPrice } from '../services/marketPriceService.js';
+import { connectDB, isDatabaseConfigured } from '../config/database.js';
 
 // Default initial positions when auto-seeding a fresh portfolio
 const DEFAULT_POSITIONS = [
@@ -97,6 +98,42 @@ const tradeInputSchema = z.object({
 const isDbConnected = () => mongoose.connection.readyState === 1;
 
 /**
+ * Ensures MongoDB is connected on-demand (critical for serverless runtimes).
+ */
+const ensureDbConnection = async () => {
+  if (isDbConnected()) return true;
+  if (isDatabaseConfigured()) {
+    try {
+      await connectDB();
+      return isDbConnected();
+    } catch (err) {
+      console.warn(`[Controller Database Reconnect Failed]: ${err.message}`);
+      return false;
+    }
+  }
+  return false;
+};
+
+const getDbErrorMessage = () => {
+  if (!isDatabaseConfigured()) {
+    return 'MongoDB is disconnected. Please configure MONGODB_URI in Vercel Project Settings > Environment Variables, then redeploy.';
+  }
+  return 'MongoDB Atlas is disconnected. Verify MONGODB_URI in Vercel settings and ensure 0.0.0.0/0 is allowed in Atlas Network Access.';
+};
+
+const checkDatabaseReady = async (res) => {
+  if (isDbConnected()) return true;
+  const connected = await ensureDbConnection();
+  if (connected) return true;
+  res.status(503).json({
+    success: false,
+    error: 'Database Unavailable',
+    message: getDbErrorMessage(),
+  });
+  return false;
+};
+
+/**
  * Resolves trusted user identifier.
  * In production, extracts from authenticated session (req.user) to prevent untrusted spoofing.
  * In development and testing, allows headers/query overrides for test isolation.
@@ -120,13 +157,7 @@ const getUserId = resolveTrustedUserId;
  */
 export const getPortfolio = async (req, res, next) => {
   try {
-    if (!isDbConnected()) {
-      return res.status(503).json({
-        success: false,
-        error: 'Database Unavailable',
-        message: 'MongoDB is disconnected. Please configure MONGODB_URI in server/.env',
-      });
-    }
+    if (!(await checkDatabaseReady(res))) return;
 
     const userId = getUserId(req);
 
@@ -196,13 +227,7 @@ const executeWithTransaction = async (workFn) => {
  */
 export const executeTrade = async (req, res, next) => {
   try {
-    if (!isDbConnected()) {
-      return res.status(503).json({
-        success: false,
-        error: 'Database Unavailable',
-        message: 'MongoDB is disconnected. Please configure MONGODB_URI in server/.env',
-      });
-    }
+    if (!(await checkDatabaseReady(res))) return;
 
     // 1. Zod input validation
     const validationResult = tradeInputSchema.safeParse(req.body);
@@ -497,13 +522,7 @@ const snapshotQuerySchema = z.object({
  */
 export const getPortfolioSnapshots = async (req, res, next) => {
   try {
-    if (!isDbConnected()) {
-      return res.status(503).json({
-        success: false,
-        error: 'Database Unavailable',
-        message: 'MongoDB is disconnected. Please configure MONGODB_URI in server/.env',
-      });
-    }
+    if (!(await checkDatabaseReady(res))) return;
 
     const parseResult = snapshotQuerySchema.safeParse(req.query);
     if (!parseResult.success) {
@@ -558,22 +577,17 @@ export const getPortfolioSnapshots = async (req, res, next) => {
 /**
  * POST /api/portfolio/snapshots/trigger
  * Manually triggers daily snapshot or seeds historical snapshots for development/testing.
- * Protected in production environments.
+ * Protected in production environments if ADMIN_KEY is configured.
  */
 export const triggerPortfolioSnapshot = async (req, res, next) => {
   try {
-    if (!isDbConnected()) {
-      return res.status(503).json({
-        success: false,
-        error: 'Database Unavailable',
-        message: 'MongoDB is disconnected. Please configure MONGODB_URI in server/.env',
-      });
-    }
+    if (!(await checkDatabaseReady(res))) return;
 
-    // Protect in production unless administrative key provided
+    // Protect in production if administrative key is explicitly configured
     if (
       process.env.NODE_ENV === 'production' &&
-      (!process.env.ADMIN_KEY || req.headers['x-admin-key'] !== process.env.ADMIN_KEY)
+      process.env.ADMIN_KEY &&
+      req.headers['x-admin-key'] !== process.env.ADMIN_KEY
     ) {
       return res.status(403).json({
         success: false,
