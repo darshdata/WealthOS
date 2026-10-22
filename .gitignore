@@ -30,3 +30,8 @@ Thumbs.db
 .vscode/
 *.swp
 *.swo
+
+# Local interview preparation files & guides
+*.pdf
+scripts/
+docs/WEALTHOS_INTERVIEW_PREP_A_TO_Z.md
