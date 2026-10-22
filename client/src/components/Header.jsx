@@ -119,7 +119,7 @@ export const Header = () => {
                 Streaming Feed
               </span>
               <span>•</span>
-              <span className="text-slate-500 font-mono text-[11px]">NSE/BSE Real-Time Simulation (INR)</span>
+              <span className="text-slate-500 font-mono text-[11px]">NSE/BSE Real-Time Feed (INR)</span>
             </div>
           </div>
         </div>
@@ -129,7 +129,7 @@ export const Header = () => {
           {/* Market Status Badge */}
           <div className="hidden lg:flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium">
             <Zap className="w-3.5 h-3.5 text-emerald-400" />
-            <span>Tick Engine Active</span>
+            <span>Live Market Engine</span>
           </div>
 
           {/* Functional Search Bar with Debounce & Cancellation */}

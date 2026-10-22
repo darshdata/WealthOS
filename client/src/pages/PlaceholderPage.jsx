@@ -13,7 +13,7 @@ export const PlaceholderPage = ({ title, description }) => {
         {description}
       </p>
       <div className="mt-4 px-3 py-1 rounded-md bg-slate-800/80 text-[11px] font-mono text-slate-400 border border-slate-700">
-        Planned for upcoming sprint tasks (Holdings, Analytics & Auth)
+        Enterprise Module Configuration • Live Platform
       </div>
       <Link
         to="/"

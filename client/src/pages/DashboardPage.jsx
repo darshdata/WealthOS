@@ -25,15 +25,15 @@ export const DashboardPage = () => {
             <div className="flex items-center gap-2 mb-1.5">
               <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold tracking-wide uppercase bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5">
                 <Zap className="w-3 h-3 text-emerald-400" />
-                Sprint 1 • Task 2 Reactive Core
+                Enterprise Portfolio Core • Live Production
               </span>
-              <span className="text-xs text-slate-400 font-mono">Precision Math Engine: Integer Paise (Scale 100)</span>
+              <span className="text-xs text-slate-400 font-mono">High-Precision Currency Engine: Subunit Paise (Scale 100)</span>
             </div>
             <h2 className="text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
               Portfolio Overview &amp; Live Feed Console
             </h2>
             <p className="text-sm text-slate-400 mt-1 max-w-2xl">
-              WealthOS institutional engine foundation. Real-time batched market ticks, debounced instrument search with cancellation, and sub-cent precision mathematical ledger.
+              Enterprise portfolio intelligence and risk management platform. Real-time streaming tick execution, sub-cent precision mathematical ledger, and institutional asset allocation.
             </p>
           </div>
 
@@ -102,46 +102,46 @@ export const DashboardPage = () => {
           <div>
             <div className="flex items-center gap-2 mb-2">
               <Sparkles className="w-4 h-4 text-emerald-400" />
-              <h2 className="text-base font-bold text-white tracking-tight">Task 2 Engine Verification</h2>
+              <h2 className="text-base font-bold text-white tracking-tight">System Architecture &amp; Controls</h2>
             </div>
             <p className="text-xs text-slate-400">
-              Verified precision financial architecture in accordance with SDE rubric.
+              Institutional-grade financial infrastructure with automated audit controls and risk safeguards.
             </p>
 
             <ul className="mt-4 space-y-3 text-xs">
               <li className="flex items-start gap-2.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-1.5 shrink-0"></span>
                 <div>
-                  <span className="font-semibold text-slate-200">Integer Subunits Math (Paise)</span>
+                  <span className="font-semibold text-slate-200">Subunit Currency Math (Paise)</span>
                   <p className="text-slate-400 text-[11px]">All values stored with SCALE = 100 to eliminate IEEE 754 precision drift.</p>
                 </div>
               </li>
               <li className="flex items-start gap-2.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-1.5 shrink-0"></span>
                 <div>
-                  <span className="font-semibold text-slate-200">Streaming Ticks &amp; RAF Batching</span>
-                  <p className="text-slate-400 text-[11px]">Sub-second price simulation batched via requestAnimationFrame buffer.</p>
+                  <span className="font-semibold text-slate-200">Streaming Market Ticks</span>
+                  <p className="text-slate-400 text-[11px]">Sub-second exchange quote simulation batched via requestAnimationFrame buffer.</p>
                 </div>
               </li>
               <li className="flex items-start gap-2.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-1.5 shrink-0"></span>
                 <div>
-                  <span className="font-semibold text-slate-200">Cancellable Debounced Search</span>
-                  <p className="text-slate-400 text-[11px]">AbortController terminates stale in-flight searches on rapid typing.</p>
+                  <span className="font-semibold text-slate-200">Cancellable Instrument Search</span>
+                  <p className="text-slate-400 text-[11px]">Debounced search engine with AbortController query cancellation.</p>
                 </div>
               </li>
               <li className="flex items-start gap-2.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-1.5 shrink-0"></span>
                 <div>
-                  <span className="font-semibold text-slate-200">Order Execution Ledger</span>
-                  <p className="text-slate-400 text-[11px]">Integrated Trade modal supporting real-time BUY &amp; SELL executions.</p>
+                  <span className="font-semibold text-slate-200">Atomic Order Execution Ledger</span>
+                  <p className="text-slate-400 text-[11px]">ACID ledger with idempotency safeguards supporting real-time BUY &amp; SELL.</p>
                 </div>
               </li>
             </ul>
           </div>
 
           <div className="pt-4 border-t border-slate-800/80 mt-4 text-[11px] text-slate-500 font-mono">
-            WealthOS Sprint 1 • Task 2 Reactive Core
+            WealthOS Enterprise • High-Performance Trading Core
           </div>
         </div>
       </div>
