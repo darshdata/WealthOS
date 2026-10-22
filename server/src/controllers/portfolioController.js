@@ -8,7 +8,7 @@ import {
   seedHistoricalSnapshotsForUser,
 } from '../services/snapshotService.js';
 import { getServerMarketPrice } from '../services/marketPriceService.js';
-import { connectDB, isDatabaseConfigured } from '../config/database.js';
+import { connectDB, isDatabaseConfigured, getCleanMongoUri } from '../config/database.js';
 
 // Default initial positions when auto-seeding a fresh portfolio
 const DEFAULT_POSITIONS = [
@@ -116,6 +116,10 @@ const ensureDbConnection = async () => {
 
 const getDbErrorMessage = () => {
   if (!isDatabaseConfigured()) {
+    const uri = getCleanMongoUri();
+    if (uri && !uri.startsWith('mongodb://') && !uri.startsWith('mongodb+srv://')) {
+      return 'Invalid MONGODB_URI in Vercel settings. Ensure connection string starts with mongodb+srv:// or mongodb:// (no extra text).';
+    }
     return 'MongoDB is disconnected. Please configure MONGODB_URI in Vercel Project Settings > Environment Variables, then redeploy.';
   }
   return 'MongoDB Atlas is disconnected. Verify MONGODB_URI in Vercel settings and ensure 0.0.0.0/0 is allowed in Atlas Network Access.';

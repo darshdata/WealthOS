@@ -4,12 +4,21 @@ let lastConnectionError = null;
 
 /**
  * Sanitizes and cleans the MongoDB connection string.
- * Trims whitespace and strips accidentally pasted quotes.
+ * Automatically extracts valid mongodb:// or mongodb+srv:// connection strings
+ * even if prefixed with 'MONGODB_URI=', 'export', enclosed in quotes or angle brackets.
  */
 export const getCleanMongoUri = () => {
   let uri = process.env.MONGODB_URI;
   if (!uri) return '';
   uri = uri.trim();
+
+  // Extract embedded connection string if pasted with key, export, quotes, or angle brackets
+  const match = uri.match(/(mongodb(?:\+srv)?:\/\/[^\s"'>]+)/);
+  if (match) {
+    return match[1].trim();
+  }
+
+  // Fallback stripping quotes
   if ((uri.startsWith('"') && uri.endsWith('"')) || (uri.startsWith("'") && uri.endsWith("'"))) {
     uri = uri.slice(1, -1).trim();
   }
@@ -17,14 +26,16 @@ export const getCleanMongoUri = () => {
 };
 
 /**
- * Checks if MONGODB_URI is properly populated and not using default placeholders.
+ * Checks if MONGODB_URI is properly populated with a valid scheme and not using default placeholders.
  */
 export const isDatabaseConfigured = () => {
   const uri = getCleanMongoUri();
   return Boolean(
     uri &&
+    (uri.startsWith('mongodb://') || uri.startsWith('mongodb+srv://')) &&
     !uri.includes('<username>') &&
     !uri.includes('<password>') &&
+    !uri.includes('<Your MongoDB Atlas connection string>') &&
     uri.trim() !== ''
   );
 };
@@ -57,8 +68,15 @@ export const connectDB = async () => {
   const uri = getCleanMongoUri();
 
   if (!isDatabaseConfigured()) {
-    const errorMsg =
-      'Missing or unconfigured MONGODB_URI. In Vercel, set MONGODB_URI in Project Settings > Environment Variables, then redeploy.';
+    let errorMsg =
+      'Missing MONGODB_URI. In Vercel, set MONGODB_URI in Project Settings > Environment Variables, then redeploy.';
+    if (uri && !uri.startsWith('mongodb://') && !uri.startsWith('mongodb+srv://')) {
+      errorMsg =
+        'Invalid MONGODB_URI scheme. The connection string must start with "mongodb+srv://" or "mongodb://".';
+    } else if (uri && (uri.includes('<username>') || uri.includes('<password>') || uri.includes('<Your MongoDB Atlas connection string>'))) {
+      errorMsg =
+        'MONGODB_URI contains unreplaced placeholders like <password>. Please replace with your actual Atlas database user password.';
+    }
     lastConnectionError = errorMsg;
     console.warn(`[Database Notice] ${errorMsg}`);
     throw new Error(errorMsg);
