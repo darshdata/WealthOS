@@ -1,0 +1,26 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "node --test test/**/*.test.js",
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js",
+    "check": "node --check src/server.js && node --check src/app.js && node --check src/config/database.js && node --check src/models/Portfolio.js && node --check src/models/Transaction.js && node --check src/models/PortfolioSnapshot.js && node --check src/services/marketPriceService.js && node --check src/services/snapshotService.js && node --check src/controllers/portfolioController.js && node --check src/routes/index.js && node --check src/routes/portfolio.routes.js && node --check src/routes/health.routes.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "type": "module",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.7",
+    "express": "^5.3.0",
+    "mongoose": "^9.11.2",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
