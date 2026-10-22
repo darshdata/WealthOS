@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Search,
   Bell,
@@ -8,13 +9,21 @@ import {
   Loader2,
   X,
   Zap,
+  CheckCheck,
+  ShoppingBag,
+  PieChart,
+  LineChart,
+  Settings,
+  ShieldCheck,
+  Calendar
 } from 'lucide-react';
-import { searchMarketInstruments } from '../services/marketFeed';
+import { searchMarketInstruments, MARKET_INSTRUMENTS } from '../services/marketFeed';
 import { usePortfolio } from '../context/usePortfolio';
 import { formatINRFromSubunits } from '../utils/currency';
 import { TradeModal } from './TradeModal';
 
 export const Header = () => {
+  const navigate = useNavigate();
   const { livePrices } = usePortfolio();
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
@@ -22,6 +31,11 @@ export const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedInstrument, setSelectedInstrument] = useState(null);
   const [isTradeModalOpen, setIsTradeModalOpen] = useState(false);
+
+  // Interactive Header State
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  const [unreadNotifications, setUnreadNotifications] = useState(3);
+  const [isQuickActionsOpen, setIsQuickActionsOpen] = useState(false);
 
   const searchContainerRef = useRef(null);
   const inputRef = useRef(null);
@@ -243,23 +257,156 @@ export const Header = () => {
             )}
           </div>
 
-          {/* Action Buttons */}
-          <button
-            type="button"
-            aria-label="Filter view"
-            className="p-2 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 border border-slate-800 transition-colors"
-          >
-            <SlidersHorizontal className="w-4 h-4" />
-          </button>
+          {/* Quick Actions Button & Popover */}
+          <div className="relative">
+            <button
+              type="button"
+              aria-label="Quick Actions"
+              onClick={() => {
+                setIsQuickActionsOpen((prev) => !prev);
+                setIsNotificationsOpen(false);
+              }}
+              className={`p-2 rounded-lg transition-colors border ${
+                isQuickActionsOpen
+                  ? 'bg-slate-800 text-emerald-400 border-emerald-500/40 shadow-sm'
+                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 border-slate-800'
+              }`}
+            >
+              <SlidersHorizontal className="w-4 h-4" />
+            </button>
 
-          <button
-            type="button"
-            aria-label="Notifications"
-            className="p-2 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 border border-slate-800 transition-colors relative"
-          >
-            <Bell className="w-4 h-4" />
-            <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-emerald-400"></span>
-          </button>
+            {isQuickActionsOpen && (
+              <div className="absolute right-0 mt-2 w-56 rounded-xl bg-slate-900 border border-slate-800 shadow-2xl overflow-hidden z-50 animate-in fade-in slide-in-from-top-2">
+                <div className="px-3 py-2 border-b border-slate-800/80 bg-slate-950/40 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+                  Quick Navigation &amp; Trade
+                </div>
+                <div className="p-1 text-xs">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      handleOpenTrade(MARKET_INSTRUMENTS[0]);
+                      setIsQuickActionsOpen(false);
+                    }}
+                    className="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-800/70 text-slate-200 hover:text-white flex items-center gap-2 transition-colors"
+                  >
+                    <ShoppingBag className="w-3.5 h-3.5 text-emerald-400" />
+                    <span>New Trade Order</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      navigate('/holdings');
+                      setIsQuickActionsOpen(false);
+                    }}
+                    className="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-800/70 text-slate-200 hover:text-white flex items-center gap-2 transition-colors"
+                  >
+                    <PieChart className="w-3.5 h-3.5 text-blue-400" />
+                    <span>View All Holdings</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      navigate('/analytics');
+                      setIsQuickActionsOpen(false);
+                    }}
+                    className="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-800/70 text-slate-200 hover:text-white flex items-center gap-2 transition-colors"
+                  >
+                    <LineChart className="w-3.5 h-3.5 text-purple-400" />
+                    <span>Portfolio Analytics</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      navigate('/settings');
+                      setIsQuickActionsOpen(false);
+                    }}
+                    className="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-800/70 text-slate-200 hover:text-white flex items-center gap-2 transition-colors"
+                  >
+                    <Settings className="w-3.5 h-3.5 text-amber-400" />
+                    <span>Platform Settings</span>
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Notifications Button & Popover */}
+          <div className="relative">
+            <button
+              type="button"
+              aria-label="Notifications"
+              onClick={() => {
+                setIsNotificationsOpen((prev) => !prev);
+                setIsQuickActionsOpen(false);
+              }}
+              className={`p-2 rounded-lg transition-colors border relative ${
+                isNotificationsOpen
+                  ? 'bg-slate-800 text-emerald-400 border-emerald-500/40 shadow-sm'
+                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 border-slate-800'
+              }`}
+            >
+              <Bell className="w-4 h-4" />
+              {unreadNotifications > 0 && (
+                <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              )}
+            </button>
+
+            {isNotificationsOpen && (
+              <div className="absolute right-0 mt-2 w-80 rounded-xl bg-slate-900 border border-slate-800 shadow-2xl overflow-hidden z-50 animate-in fade-in slide-in-from-top-2">
+                <div className="px-4 py-2.5 border-b border-slate-800/80 bg-slate-950/60 flex items-center justify-between text-xs">
+                  <span className="font-bold text-white flex items-center gap-1.5">
+                    <Bell className="w-3.5 h-3.5 text-emerald-400" /> Notifications
+                  </span>
+                  {unreadNotifications > 0 ? (
+                    <button
+                      type="button"
+                      onClick={() => setUnreadNotifications(0)}
+                      className="text-[11px] text-emerald-400 hover:text-emerald-300 font-semibold flex items-center gap-1"
+                    >
+                      <CheckCheck className="w-3 h-3" /> Mark all read
+                    </button>
+                  ) : (
+                    <span className="text-[10px] text-slate-500">All caught up</span>
+                  )}
+                </div>
+
+                <div className="max-h-80 overflow-y-auto divide-y divide-slate-800/60 text-xs">
+                  <div className="p-3 hover:bg-slate-800/40 transition-colors">
+                    <p className="font-semibold text-slate-200 flex items-center gap-1.5">
+                      <Calendar className="w-3 h-3 text-emerald-400" />
+                      Daily Valuation Snapshot Synced
+                    </p>
+                    <p className="text-[11px] text-slate-400 mt-0.5">
+                      Net worth snapshot computed and persisted to MongoDB Atlas (Asia/Kolkata).
+                    </p>
+                    <span className="text-[10px] text-slate-500 font-mono mt-1 block">Today, 23:59 IST</span>
+                  </div>
+
+                  <div className="p-3 hover:bg-slate-800/40 transition-colors">
+                    <p className="font-semibold text-slate-200 flex items-center gap-1.5">
+                      <ShieldCheck className="w-3 h-3 text-emerald-400" />
+                      Circuit Breakers Active
+                    </p>
+                    <p className="text-[11px] text-slate-400 mt-0.5">
+                      ±20% daily price protection band enforced on all order executions.
+                    </p>
+                    <span className="text-[10px] text-slate-500 font-mono mt-1 block">Active Policy</span>
+                  </div>
+
+                  <div className="p-3 hover:bg-slate-800/40 transition-colors">
+                    <p className="font-semibold text-slate-200 flex items-center gap-1.5">
+                      <Zap className="w-3 h-3 text-emerald-400" />
+                      Real-Time Feeds Online
+                    </p>
+                    <p className="text-[11px] text-slate-400 mt-0.5">
+                      Streaming ticks active across 8 NSE/BSE catalog instruments.
+                    </p>
+                    <span className="text-[10px] text-slate-500 font-mono mt-1 block">Streaming</span>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </header>
 

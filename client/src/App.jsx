@@ -5,7 +5,7 @@ import { DashboardLayout } from './layouts/DashboardLayout';
 import { DashboardPage } from './pages/DashboardPage';
 import { HoldingsPage } from './pages/HoldingsPage';
 import { AnalyticsPage } from './pages/AnalyticsPage';
-import { PlaceholderPage } from './pages/PlaceholderPage';
+import { SettingsPage } from './pages/SettingsPage';
 
 function App() {
   return (
@@ -16,15 +16,7 @@ function App() {
             <Route index element={<DashboardPage />} />
             <Route path="analytics" element={<AnalyticsPage />} />
             <Route path="holdings" element={<HoldingsPage />} />
-            <Route
-              path="settings"
-              element={
-                <PlaceholderPage
-                  title="Platform & Environment Settings"
-                  description="Database connection configuration, API keys, and workspace preferences."
-                />
-              }
-            />
+            <Route path="settings" element={<SettingsPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>
         </Routes>
