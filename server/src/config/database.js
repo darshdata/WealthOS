@@ -18,6 +18,10 @@ export const isDatabaseConfigured = () => {
  * Sets 5-second timeout to avoid indefinite hanging.
  */
 export const connectDB = async () => {
+  if (mongoose.connection.readyState === 1) {
+    return mongoose.connection;
+  }
+
   const uri = process.env.MONGODB_URI;
 
   if (!isDatabaseConfigured()) {
