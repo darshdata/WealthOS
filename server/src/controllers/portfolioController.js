@@ -8,7 +8,12 @@ import {
   seedHistoricalSnapshotsForUser,
 } from '../services/snapshotService.js';
 import { getServerMarketPrice } from '../services/marketPriceService.js';
-import { connectDB, isDatabaseConfigured, getCleanMongoUri } from '../config/database.js';
+import {
+  connectDB,
+  isDatabaseConfigured,
+  getCleanMongoUri,
+  getDatabaseStatus,
+} from '../config/database.js';
 
 // Default initial positions when auto-seeding a fresh portfolio
 const DEFAULT_POSITIONS = [
@@ -115,6 +120,7 @@ const ensureDbConnection = async () => {
 };
 
 const getDbErrorMessage = () => {
+  const status = getDatabaseStatus();
   if (!isDatabaseConfigured()) {
     const uri = getCleanMongoUri();
     if (uri && !uri.startsWith('mongodb://') && !uri.startsWith('mongodb+srv://')) {
@@ -122,6 +128,20 @@ const getDbErrorMessage = () => {
     }
     return 'MongoDB is disconnected. Please configure MONGODB_URI in Vercel Project Settings > Environment Variables, then redeploy.';
   }
+
+  if (status.lastError) {
+    if (
+      status.lastError.includes('whitelisted') ||
+      status.lastError.includes('whitelist') ||
+      status.lastError.includes('Could not connect to any servers')
+    ) {
+      return 'MongoDB Atlas Network Access Blocked: Vercel serverless IPs are not whitelisted. In MongoDB Atlas, go to Network Access -> Add IP Address -> Add 0.0.0.0/0 (Allow Access from Anywhere as Permanent).';
+    }
+    if (status.lastError.includes('bad auth') || status.lastError.includes('Authentication failed')) {
+      return 'MongoDB Atlas Authentication Failed: Bad username or password in MONGODB_URI in Vercel settings.';
+    }
+  }
+
   return 'MongoDB Atlas is disconnected. Verify MONGODB_URI in Vercel settings and ensure 0.0.0.0/0 is allowed in Atlas Network Access.';
 };
 

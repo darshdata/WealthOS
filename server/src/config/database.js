@@ -84,7 +84,9 @@ export const connectDB = async () => {
 
   try {
     const conn = await mongoose.connect(uri, {
-      serverSelectionTimeoutMS: 8000,
+      serverSelectionTimeoutMS: 5000,
+      maxPoolSize: 10,
+      socketTimeoutMS: 45000,
     });
     lastConnectionError = null;
     console.log(`[Database] MongoDB Atlas connected successfully to host: ${conn.connection.host}`);

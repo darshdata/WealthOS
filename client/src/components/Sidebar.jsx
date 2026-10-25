@@ -9,6 +9,7 @@ import {
   Server,
   Database,
   CheckCircle2,
+  AlertCircle,
   X
 } from 'lucide-react';
 import { API_BASE_URL } from '../services/api.js';
@@ -67,14 +68,14 @@ export const Sidebar = ({ isOpen = false, onClose }) => {
         if (isMounted) {
           setBackendStatus({
             loading: false,
-            online: isApiOk || true,
-            dbOnline: isDbOk || true,
+            online: isApiOk,
+            dbOnline: isDbOk,
             data: null,
           });
         }
       } catch {
         if (isMounted) {
-          setBackendStatus({ loading: false, online: true, dbOnline: true, data: null });
+          setBackendStatus({ loading: false, online: false, dbOnline: false, data: null });
         }
       }
     };
@@ -157,8 +158,20 @@ export const Sidebar = ({ isOpen = false, onClose }) => {
             <span className="text-slate-400 font-medium flex items-center gap-1.5">
               <Server className="w-3.5 h-3.5 text-slate-400" /> Trading Engine
             </span>
-            <span className="flex items-center gap-1 text-emerald-400 font-semibold text-[11px]">
-              <CheckCircle2 className="w-3.5 h-3.5" /> {backendStatus.online ? 'Online' : 'Active'}
+            <span
+              className={`flex items-center gap-1 font-semibold text-[11px] ${
+                backendStatus.online ? 'text-emerald-400' : 'text-amber-400'
+              }`}
+            >
+              {backendStatus.online ? (
+                <>
+                  <CheckCircle2 className="w-3.5 h-3.5" /> Online
+                </>
+              ) : (
+                <>
+                  <AlertCircle className="w-3.5 h-3.5" /> Offline
+                </>
+              )}
             </span>
           </div>
 
@@ -166,8 +179,20 @@ export const Sidebar = ({ isOpen = false, onClose }) => {
             <span className="text-slate-400 font-medium flex items-center gap-1.5">
               <Database className="w-3.5 h-3.5 text-slate-400" /> Cloud Database
             </span>
-            <span className="flex items-center gap-1 text-emerald-400 font-semibold text-[11px]">
-              <CheckCircle2 className="w-3.5 h-3.5" /> {backendStatus.dbOnline ? 'Connected' : 'Synchronized'}
+            <span
+              className={`flex items-center gap-1 font-semibold text-[11px] ${
+                backendStatus.dbOnline ? 'text-emerald-400' : 'text-rose-400'
+              }`}
+            >
+              {backendStatus.dbOnline ? (
+                <>
+                  <CheckCircle2 className="w-3.5 h-3.5" /> Connected
+                </>
+              ) : (
+                <>
+                  <AlertCircle className="w-3.5 h-3.5" /> Disconnected
+                </>
+              )}
             </span>
           </div>
         </div>
