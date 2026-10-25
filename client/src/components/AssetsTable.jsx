@@ -18,10 +18,10 @@ export const AssetsTable = () => {
 
   return (
     <>
-      <div className="p-5 rounded-xl bg-slate-900/80 border border-slate-800/80">
-        <div className="flex items-center justify-between mb-4">
+      <div className="p-4 sm:p-5 rounded-xl bg-slate-900/80 border border-slate-800/80 min-w-0">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
           <div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
               <h2 className="text-base font-bold text-white tracking-tight">Core Holdings Snapshot</h2>
               <span className="px-2 py-0.5 rounded-full text-[10px] font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
                 {holdings.length} Active Positions
@@ -31,7 +31,7 @@ export const AssetsTable = () => {
               Live market valuation computed in integer paise subunits
             </p>
           </div>
-          <div className="text-right">
+          <div className="self-start sm:self-auto sm:text-right">
             <span className="text-[11px] text-slate-400">Total Holdings Value</span>
             <p className="text-sm font-bold text-emerald-400 font-mono">
               {portfolioSummary.formattedHoldingsValue}
@@ -39,8 +39,9 @@ export const AssetsTable = () => {
           </div>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
+        {/* Desktop & Tablet Table (md and up) */}
+        <div className="hidden md:block overflow-x-auto">
+          <table className="w-full text-left text-xs min-w-[620px]">
             <thead>
               <tr className="border-b border-slate-800 text-slate-400 uppercase font-semibold text-[10px] tracking-wider">
                 <th className="pb-3 font-semibold">Asset / Ticker</th>
@@ -60,7 +61,7 @@ export const AssetsTable = () => {
                   return (
                     <tr key={asset.symbol} className="hover:bg-slate-800/40 transition-colors">
                       {/* Asset Ticker & Name */}
-                      <td className="py-3.5">
+                      <td className="py-3.5 pr-2">
                         <div className="flex items-center gap-2.5">
                           <div className="w-8 h-8 rounded-lg bg-slate-800 border border-slate-700/60 flex items-center justify-center font-bold font-mono text-emerald-400 text-xs shrink-0">
                             {asset.symbol.slice(0, 2)}
@@ -72,7 +73,7 @@ export const AssetsTable = () => {
                                 {asset.sector.split(' ')[0]}
                               </span>
                             </p>
-                            <p className="text-[11px] text-slate-400 truncate max-w-[130px] sm:max-w-none">
+                            <p className="text-[11px] text-slate-400 truncate max-w-[130px] lg:max-w-none">
                               {asset.name}
                             </p>
                           </div>
@@ -80,7 +81,7 @@ export const AssetsTable = () => {
                       </td>
 
                       {/* Quantity & Avg Buy */}
-                      <td className="py-3.5">
+                      <td className="py-3.5 pr-2">
                         <p className="font-mono font-semibold text-slate-200">
                           {asset.quantity} shares
                         </p>
@@ -90,7 +91,7 @@ export const AssetsTable = () => {
                       </td>
 
                       {/* Weight progress bar */}
-                      <td className="py-3.5">
+                      <td className="py-3.5 pr-2">
                         <div className="flex items-center gap-2">
                           <div className="w-14 h-1.5 bg-slate-800 rounded-full overflow-hidden">
                             <div
@@ -105,7 +106,7 @@ export const AssetsTable = () => {
                       </td>
 
                       {/* LTP & 24H Change */}
-                      <td className="py-3.5 text-right font-mono">
+                      <td className="py-3.5 text-right font-mono pr-2">
                         <p className="font-bold text-white text-xs">
                           {asset.formattedCurrentPrice}
                         </p>
@@ -125,7 +126,7 @@ export const AssetsTable = () => {
                       </td>
 
                       {/* Total Holding Value & Unrealized PnL */}
-                      <td className="py-3.5 text-right font-mono">
+                      <td className="py-3.5 text-right font-mono pr-2">
                         <p className="font-bold text-slate-200">
                           {asset.formattedCurrent}
                         </p>
@@ -143,7 +144,7 @@ export const AssetsTable = () => {
                         <button
                           type="button"
                           onClick={() => handleOpenTrade(asset)}
-                          className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-emerald-500 hover:text-slate-950 text-slate-300 font-semibold text-[11px] transition-all border border-slate-700/80 inline-flex items-center gap-1"
+                          className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-emerald-500 hover:text-slate-950 text-slate-300 font-semibold text-[11px] transition-all border border-slate-700/80 inline-flex items-center gap-1 shadow-sm"
                         >
                           <ArrowUpDown className="w-3 h-3" />
                           Trade
@@ -161,6 +162,79 @@ export const AssetsTable = () => {
               )}
             </tbody>
           </table>
+        </div>
+
+        {/* Mobile Cards (< md) */}
+        <div className="md:hidden space-y-3">
+          {holdings.length > 0 ? (
+            holdings.map((asset) => {
+              const isDayPositive = asset.change24h >= 0;
+              const isPnLPositive = asset.isPositive;
+
+              return (
+                <div
+                  key={asset.symbol}
+                  className="p-3.5 rounded-xl bg-slate-950/60 border border-slate-800 space-y-3"
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <div className="w-8 h-8 rounded-lg bg-slate-800 border border-slate-700/60 flex items-center justify-center font-bold font-mono text-emerald-400 text-xs shrink-0">
+                        {asset.symbol.slice(0, 2)}
+                      </div>
+                      <div className="min-w-0">
+                        <p className="font-bold text-white font-mono text-xs flex items-center gap-1.5">
+                          {asset.symbol}
+                          <span className="text-[9px] uppercase px-1 py-0.2 rounded bg-slate-800 text-slate-400 font-sans">
+                            {asset.sector.split(' ')[0]}
+                          </span>
+                        </p>
+                        <p className="text-[11px] text-slate-400 truncate">{asset.name}</p>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => handleOpenTrade(asset)}
+                      className="px-2.5 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold text-xs shadow-sm flex items-center gap-1 shrink-0"
+                    >
+                      <ArrowUpDown className="w-3 h-3" /> Trade
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-2 text-xs pt-2 border-t border-slate-800/80">
+                    <div>
+                      <span className="text-slate-500 text-[10px] uppercase">Shares Held</span>
+                      <p className="font-mono font-semibold text-slate-200">
+                        {asset.quantity} @ {formatINRFromSubunits(asset.avgBuyPrice)}
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <span className="text-slate-500 text-[10px] uppercase">LTP (Market)</span>
+                      <p className="font-mono font-bold text-white flex items-center justify-end gap-1">
+                        {asset.formattedCurrentPrice}
+                        <span className={`text-[10px] ${isDayPositive ? 'text-emerald-400' : 'text-rose-400'}`}>
+                          {isDayPositive ? '+' : ''}{asset.change24h}%
+                        </span>
+                      </p>
+                    </div>
+                    <div>
+                      <span className="text-slate-500 text-[10px] uppercase">Market Value</span>
+                      <p className="font-mono font-bold text-white">{asset.formattedCurrent}</p>
+                    </div>
+                    <div className="text-right">
+                      <span className="text-slate-500 text-[10px] uppercase">Unrealized P&amp;L</span>
+                      <p className={`font-mono font-bold ${isPnLPositive ? 'text-emerald-400' : 'text-rose-400'}`}>
+                        {asset.formattedPnl} ({asset.formattedReturnPercent})
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          ) : (
+            <div className="py-8 text-center text-slate-500 text-xs">
+              No active positions held. Search instruments above to execute a trade.
+            </div>
+          )}
         </div>
       </div>
 

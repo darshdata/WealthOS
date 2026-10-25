@@ -17,30 +17,32 @@ export const DashboardPage = () => {
   const { portfolioSummary } = usePortfolio();
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5 sm:space-y-6 min-w-0">
       {/* Welcome & Valuation Banner */}
-      <div className="p-6 rounded-2xl bg-gradient-to-r from-slate-900 via-slate-900 to-emerald-950/30 border border-slate-800/80 shadow-lg relative overflow-hidden">
+      <div className="p-4 sm:p-6 rounded-2xl bg-gradient-to-r from-slate-900 via-slate-900 to-emerald-950/30 border border-slate-800/80 shadow-lg relative overflow-hidden">
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
-            <div className="flex items-center gap-2 mb-1.5">
-              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold tracking-wide uppercase bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5">
-                <Zap className="w-3 h-3 text-emerald-400" />
+          <div className="min-w-0">
+            <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-bold tracking-wide uppercase bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5">
+                <Zap className="w-3 h-3 text-emerald-400 shrink-0" />
                 Enterprise Portfolio Core • Live Production
               </span>
-              <span className="text-xs text-slate-400 font-mono">High-Precision Currency Engine: Subunit Paise (Scale 100)</span>
+              <span className="text-[11px] sm:text-xs text-slate-400 font-mono">
+                High-Precision Currency Engine: Subunit Paise (Scale 100)
+              </span>
             </div>
-            <h2 className="text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
+            <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
               Portfolio Overview &amp; Live Feed Console
             </h2>
-            <p className="text-sm text-slate-400 mt-1 max-w-2xl">
+            <p className="text-xs sm:text-sm text-slate-400 mt-1 max-w-2xl leading-relaxed">
               Enterprise portfolio intelligence and risk management platform. Real-time streaming tick execution, sub-cent precision mathematical ledger, and institutional asset allocation.
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
-            <div className="px-4 py-2.5 rounded-xl bg-slate-950/60 border border-slate-800 text-right">
-              <p className="text-[11px] text-slate-400 uppercase font-semibold">Total Portfolio Net Worth</p>
-              <p className="text-lg font-bold text-emerald-400 font-mono">
+          <div className="flex items-center gap-3 self-start md:self-auto shrink-0">
+            <div className="px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl bg-slate-950/60 border border-slate-800 text-left sm:text-right">
+              <p className="text-[10px] sm:text-[11px] text-slate-400 uppercase font-semibold">Total Portfolio Net Worth</p>
+              <p className="text-base sm:text-lg font-bold text-emerald-400 font-mono">
                 {portfolioSummary.formattedTotalPortfolioValue}
               </p>
             </div>
@@ -52,7 +54,7 @@ export const DashboardPage = () => {
       </div>
 
       {/* KPI Cards Row with Live Computed Metrics */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         <KpiCard
           title="Total Net Worth"
           value={portfolioSummary.formattedTotalPortfolioValue}
@@ -84,21 +86,22 @@ export const DashboardPage = () => {
       </div>
 
       {/* Visual Analytics Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 sm:gap-6">
+        <div className="lg:col-span-2 min-w-0">
           <PerformanceChart />
         </div>
-        <div className="lg:col-span-1">
+        <div className="lg:col-span-1 min-w-0">
           <AllocationChart />
         </div>
       </div>
 
       {/* Holdings & System Status Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 sm:gap-6">
+        <div className="lg:col-span-2 min-w-0">
           <AssetsTable />
         </div>
-        <div className="lg:col-span-1 p-5 rounded-xl bg-slate-900/80 border border-slate-800/80 flex flex-col justify-between">
+        <div className="lg:col-span-1 p-4 sm:p-5 rounded-xl bg-slate-900/80 border border-slate-800/80 flex flex-col justify-between min-w-0">
+
           <div>
             <div className="flex items-center gap-2 mb-2">
               <Sparkles className="w-4 h-4 text-emerald-400" />

@@ -103,21 +103,21 @@ export const PerformanceChart = () => {
   const isAlphaPositive = Number(alphaPercent) >= 0;
 
   return (
-    <div className="p-5 rounded-xl bg-slate-900/80 border border-slate-800/80 flex flex-col">
+    <div className="p-4 sm:p-5 rounded-xl bg-slate-900/80 border border-slate-800/80 flex flex-col min-w-0">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
-        <div>
+        <div className="min-w-0">
           <h2 className="text-base font-bold text-white tracking-tight">Portfolio Performance Curve</h2>
           <p className="text-xs text-slate-400">Total net valuation trajectory vs Nifty 50 benchmark index</p>
         </div>
 
         {/* Range Selector */}
-        <div className="flex items-center gap-1 bg-slate-950/60 p-1 rounded-lg border border-slate-800 self-start sm:self-auto">
+        <div className="flex items-center gap-1 bg-slate-950/60 p-1 rounded-lg border border-slate-800 self-start sm:self-auto overflow-x-auto max-w-full">
           {ranges.map((range) => (
             <button
               key={range}
               type="button"
               onClick={() => setActiveRange(range)}
-              className={`px-2.5 py-1 text-xs font-semibold rounded-md transition-all ${
+              className={`px-2.5 py-1 text-xs font-semibold rounded-md transition-all shrink-0 ${
                 activeRange === range
                   ? 'bg-emerald-500 text-slate-950 shadow-sm shadow-emerald-500/20'
                   : 'text-slate-400 hover:text-slate-200'
@@ -129,9 +129,9 @@ export const PerformanceChart = () => {
         </div>
       </div>
 
-      <div className="w-full h-72">
+      <div className="w-full h-64 sm:h-72">
         <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+          <AreaChart data={chartData} margin={{ top: 10, right: 10, left: -15, bottom: 0 }}>
             <defs>
               <linearGradient id="portfolioGradient" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="#10b981" stopOpacity={0.25} />
@@ -142,15 +142,16 @@ export const PerformanceChart = () => {
             <XAxis
               dataKey="date"
               stroke="#64748b"
-              fontSize={11}
+              fontSize={10}
               tickLine={false}
               axisLine={{ stroke: '#334155' }}
             />
             <YAxis
               stroke="#64748b"
-              fontSize={11}
+              fontSize={10}
               tickLine={false}
               axisLine={false}
+              width={45}
               tickFormatter={(v) => `₹${(v / 1000).toFixed(0)}k`}
               domain={['dataMin - 15000', 'dataMax + 15000']}
             />
@@ -174,8 +175,8 @@ export const PerformanceChart = () => {
         </ResponsiveContainer>
       </div>
 
-      <div className="flex items-center justify-between text-xs text-slate-400 pt-3 border-t border-slate-800/60 mt-2">
-        <div className="flex items-center gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs text-slate-400 pt-3 border-t border-slate-800/60 mt-2 gap-2">
+        <div className="flex flex-wrap items-center gap-3 sm:gap-4">
           <span className="flex items-center gap-2">
             <span className="w-3 h-1 bg-emerald-500 rounded-full inline-block"></span>
             WealthOS Portfolio
@@ -185,7 +186,7 @@ export const PerformanceChart = () => {
             Nifty 50 Index
           </span>
         </div>
-        <span className={`font-mono text-[11px] font-semibold ${isAlphaPositive ? 'text-emerald-400' : 'text-rose-400'}`}>
+        <span className={`font-mono text-[11px] font-semibold self-start sm:self-auto ${isAlphaPositive ? 'text-emerald-400' : 'text-rose-400'}`}>
           {isAlphaPositive ? '+' : ''}{alphaPercent}% Alpha vs Nifty 50 ({activeRange})
         </span>
       </div>

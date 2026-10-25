@@ -282,23 +282,23 @@ export const AnalyticsPage = () => {
       : allocations.totalPortfolioSubunits;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5 sm:space-y-6 min-w-0">
       {/* Header Banner */}
-      <div className="p-6 rounded-2xl bg-gradient-to-r from-slate-900 via-slate-900 to-emerald-950/30 border border-slate-800/80 shadow-lg relative overflow-hidden">
+      <div className="p-4 sm:p-6 rounded-2xl bg-gradient-to-r from-slate-900 via-slate-900 to-emerald-950/30 border border-slate-800/80 shadow-lg relative overflow-hidden">
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
+          <div className="min-w-0">
             <div className="flex items-center gap-2 mb-1.5 flex-wrap">
-              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold tracking-wide uppercase bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5">
-                <BarChart3 className="w-3.5 h-3.5" />
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-bold tracking-wide uppercase bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5">
+                <BarChart3 className="w-3.5 h-3.5 shrink-0" />
                 Portfolio Analytics Engine
               </span>
-              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-slate-800/80 text-slate-300 border border-slate-700/60 font-mono flex items-center gap-1">
-                <Database className="w-3 h-3 text-emerald-400" />
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-medium bg-slate-800/80 text-slate-300 border border-slate-700/60 font-mono flex items-center gap-1">
+                <Database className="w-3 h-3 text-emerald-400 shrink-0" />
                 {isSyncedWithBackend ? 'Atlas Persisted' : 'Optimistic Memory'}
               </span>
               {snapshotChartData.hasHistory ? (
                 <span className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 flex items-center gap-1">
-                  <Calendar className="w-3 h-3 text-emerald-400" />
+                  <Calendar className="w-3 h-3 text-emerald-400 shrink-0" />
                   {snapshotChartData.count} Persisted Daily Snapshots
                 </span>
               ) : (
@@ -307,15 +307,15 @@ export const AnalyticsPage = () => {
                 </span>
               )}
             </div>
-            <h1 className="text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
+            <h1 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
               Capital Allocation &amp; Concentration Analytics
             </h1>
-            <p className="text-sm text-slate-400 mt-1 max-w-2xl">
+            <p className="text-xs sm:text-sm text-slate-400 mt-1 max-w-2xl leading-relaxed">
               Transparent distinction between persisted MongoDB valuation snapshots and simulated market dynamics. All valuations computed in integer paise (Asia/Kolkata timezone).
             </p>
           </div>
 
-          <div className="flex items-center gap-2.5 self-start md:self-auto flex-wrap">
+          <div className="flex items-center gap-2.5 self-start md:self-auto shrink-0 flex-wrap">
             <button
               type="button"
               onClick={async () => {
@@ -343,14 +343,14 @@ export const AnalyticsPage = () => {
       {/* Action Notification Message */}
       {actionSuccessMsg && (
         <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs flex items-center justify-between gap-3">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 min-w-0">
             <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-            <span>{actionSuccessMsg}</span>
+            <span className="truncate">{actionSuccessMsg}</span>
           </div>
           <button
             type="button"
             onClick={() => setActionSuccessMsg(null)}
-            className="text-slate-400 hover:text-white text-xs font-semibold"
+            className="text-slate-400 hover:text-white text-xs font-semibold shrink-0"
           >
             Dismiss
           </button>
@@ -359,10 +359,10 @@ export const AnalyticsPage = () => {
 
       {/* Error Alert State */}
       {(portfolioError || snapshotsError) && (
-        <div className="p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 flex items-center justify-between gap-3 text-xs">
-          <div className="flex items-center gap-2">
+        <div className="p-3.5 sm:p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 flex items-center justify-between gap-3 text-xs">
+          <div className="flex items-center gap-2 min-w-0">
             <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />
-            <span>{portfolioError || snapshotsError}</span>
+            <span className="truncate">{portfolioError || snapshotsError}</span>
           </div>
           <button
             type="button"
@@ -370,7 +370,7 @@ export const AnalyticsPage = () => {
               if (portfolioError) await refreshPortfolio();
               if (snapshotsError) await loadHistoricalSnapshots();
             }}
-            className="px-3 py-1 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 text-rose-200 font-semibold transition-colors"
+            className="px-3 py-1 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 text-rose-200 font-semibold transition-colors shrink-0"
           >
             Retry Connection
           </button>
@@ -378,16 +378,16 @@ export const AnalyticsPage = () => {
       )}
 
       {/* Primary Returns & P&L Cards Row (Current Authoritative Snapshot) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {/* Invested Cost Basis */}
-        <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800/80">
-          <p className="text-[11px] text-slate-400 uppercase font-semibold flex items-center gap-1">
-            <Layers className="w-3.5 h-3.5 text-slate-500" /> Invested Cost Basis
+        <div className="p-3.5 sm:p-4 rounded-xl bg-slate-900/80 border border-slate-800/80 min-w-0">
+          <p className="text-[10px] sm:text-[11px] text-slate-400 uppercase font-semibold flex items-center gap-1 truncate">
+            <Layers className="w-3.5 h-3.5 text-slate-500 shrink-0" /> Invested Cost Basis
           </p>
-          <p className="text-xl font-bold text-white font-mono mt-1">
+          <p className="text-lg sm:text-xl font-bold text-white font-mono mt-1 truncate">
             {formatINRFromSubunits(returnsData.investedSubunits)}
           </p>
-          <p className="text-[11px] text-slate-500 mt-1">
+          <p className="text-[10px] sm:text-[11px] text-slate-500 mt-1 truncate">
             {returnsData.hasInvestedCapital
               ? `Across ${holdings.length} active positions`
               : 'Zero capital deployed in positions'}
@@ -395,28 +395,28 @@ export const AnalyticsPage = () => {
         </div>
 
         {/* Current Holdings Valuation */}
-        <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800/80">
-          <p className="text-[11px] text-slate-400 uppercase font-semibold flex items-center gap-1">
-            <DollarSign className="w-3.5 h-3.5 text-slate-500" /> Current Holdings Value
+        <div className="p-3.5 sm:p-4 rounded-xl bg-slate-900/80 border border-slate-800/80 min-w-0">
+          <p className="text-[10px] sm:text-[11px] text-slate-400 uppercase font-semibold flex items-center gap-1 truncate">
+            <DollarSign className="w-3.5 h-3.5 text-slate-500 shrink-0" /> Current Holdings Value
           </p>
-          <p className="text-xl font-bold text-white font-mono mt-1">
+          <p className="text-lg sm:text-xl font-bold text-white font-mono mt-1 truncate">
             {formatINRFromSubunits(returnsData.currentSubunits)}
           </p>
-          <p className="text-[11px] text-slate-500 mt-1">Mark-to-market live valuation</p>
+          <p className="text-[10px] sm:text-[11px] text-slate-500 mt-1 truncate">Mark-to-market live valuation</p>
         </div>
 
         {/* Unrealized Gain / P&L with Safe Percentage */}
-        <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800/80">
-          <p className="text-[11px] text-slate-400 uppercase font-semibold flex items-center gap-1">
+        <div className="p-3.5 sm:p-4 rounded-xl bg-slate-900/80 border border-slate-800/80 min-w-0">
+          <p className="text-[10px] sm:text-[11px] text-slate-400 uppercase font-semibold flex items-center gap-1 truncate">
             {returnsData.isPositive ? (
-              <TrendingUp className="w-3.5 h-3.5 text-emerald-400" />
+              <TrendingUp className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
             ) : (
-              <TrendingDown className="w-3.5 h-3.5 text-rose-400" />
+              <TrendingDown className="w-3.5 h-3.5 text-rose-400 shrink-0" />
             )}
             Unrealized P&amp;L
           </p>
           <p
-            className={`text-xl font-bold font-mono mt-1 ${
+            className={`text-lg sm:text-xl font-bold font-mono mt-1 truncate ${
               returnsData.isPositive ? 'text-emerald-400' : 'text-rose-400'
             }`}
           >
@@ -424,7 +424,7 @@ export const AnalyticsPage = () => {
             {formatINRFromSubunits(returnsData.pnlSubunits)}
           </p>
           <p
-            className={`text-[11px] font-semibold font-mono mt-1 ${
+            className={`text-[10px] sm:text-[11px] font-semibold font-mono mt-1 truncate ${
               returnsData.isPositive ? 'text-emerald-400/90' : 'text-rose-400/90'
             }`}
           >
@@ -435,23 +435,23 @@ export const AnalyticsPage = () => {
         </div>
 
         {/* Deployable Cash vs Total Portfolio Net Worth */}
-        <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800/80">
-          <p className="text-[11px] text-slate-400 uppercase font-semibold flex items-center gap-1">
-            <Wallet className="w-3.5 h-3.5 text-slate-500" /> Uninvested Cash
+        <div className="p-3.5 sm:p-4 rounded-xl bg-slate-900/80 border border-slate-800/80 min-w-0">
+          <p className="text-[10px] sm:text-[11px] text-slate-400 uppercase font-semibold flex items-center gap-1 truncate">
+            <Wallet className="w-3.5 h-3.5 text-slate-500 shrink-0" /> Uninvested Cash
           </p>
-          <p className="text-xl font-bold text-emerald-400 font-mono mt-1">
+          <p className="text-lg sm:text-xl font-bold text-emerald-400 font-mono mt-1 truncate">
             {formatINRFromSubunits(cashBalance)}
           </p>
-          <p className="text-[11px] text-slate-500 mt-1 font-mono">
-            {allocations.cashAllocationPercent}% of {formatINRFromSubunits(allocations.totalPortfolioSubunits)} net worth
+          <p className="text-[10px] sm:text-[11px] text-slate-500 mt-1 font-mono truncate">
+            {allocations.cashAllocationPercent}% of {formatINRFromSubunits(allocations.totalPortfolioSubunits)}
           </p>
         </div>
       </div>
 
       {/* Historical Portfolio Performance Trajectory Section */}
-      <div className="p-5 rounded-2xl bg-slate-900/80 border border-slate-800/80 space-y-4">
+      <div className="p-4 sm:p-5 rounded-2xl bg-slate-900/80 border border-slate-800/80 space-y-4 min-w-0">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div>
+          <div className="min-w-0">
             <div className="flex items-center gap-2 flex-wrap">
               <h2 className="text-base font-bold text-white tracking-tight">
                 Portfolio Valuation Trajectory
@@ -467,7 +467,7 @@ export const AnalyticsPage = () => {
                 </span>
               )}
             </div>
-            <p className="text-xs text-slate-400 mt-0.5">
+            <p className="text-xs text-slate-400 mt-0.5 leading-relaxed">
               {snapshotChartData.hasHistory
                 ? `Actual End-of-Day (EOD) portfolio valuation trajectory from MongoDB Atlas (${snapshotChartData.series[0]?.valuationDate} to ${snapshotChartData.series[snapshotChartData.series.length - 1]?.valuationDate})`
                 : 'Timestamped valuation snapshots recorded in Asia/Kolkata timezone'}
@@ -475,7 +475,7 @@ export const AnalyticsPage = () => {
           </div>
 
           {/* Snapshot Controls */}
-          <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap">
+          <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap shrink-0">
             <button
               type="button"
               onClick={handleRecordSnapshot}
@@ -505,7 +505,7 @@ export const AnalyticsPage = () => {
         {/* Data Architecture Transparency Banner */}
         <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800 text-xs text-slate-400 flex items-start gap-2.5">
           <Info className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-          <div className="space-y-1">
+          <div className="space-y-1 min-w-0">
             <p className="font-semibold text-slate-300">
               Data Integrity &amp; Snapshot Audit Policy
             </p>
@@ -525,16 +525,16 @@ export const AnalyticsPage = () => {
 
         {/* Chart View or Empty/Insufficient History Card */}
         {isSnapshotsLoading ? (
-          <div className="h-72 flex flex-col items-center justify-center text-center space-y-2">
+          <div className="h-64 sm:h-72 flex flex-col items-center justify-center text-center space-y-2">
             <RefreshCw className="w-6 h-6 text-emerald-400 animate-spin" />
             <p className="text-xs text-slate-400">Loading historical snapshots from MongoDB Atlas...</p>
           </div>
         ) : snapshotChartData.hasHistory ? (
-          <div className="w-full h-72 pt-2">
+          <div className="w-full h-64 sm:h-72 pt-2">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart
                 data={snapshotChartData.series}
-                margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
+                margin={{ top: 10, right: 10, left: -15, bottom: 0 }}
               >
                 <defs>
                   <linearGradient id="persistedGradient" x1="0" y1="0" x2="0" y2="1">
@@ -546,15 +546,16 @@ export const AnalyticsPage = () => {
                 <XAxis
                   dataKey="date"
                   stroke="#64748b"
-                  fontSize={11}
+                  fontSize={10}
                   tickLine={false}
                   axisLine={{ stroke: '#334155' }}
                 />
                 <YAxis
                   stroke="#64748b"
-                  fontSize={11}
+                  fontSize={10}
                   tickLine={false}
                   axisLine={false}
+                  width={45}
                   tickFormatter={(v) => `₹${(v / 1000).toFixed(0)}k`}
                 />
                 <Tooltip content={<PersistedSnapshotTooltip />} />
@@ -586,11 +587,11 @@ export const AnalyticsPage = () => {
                 Close Preview
               </button>
             </div>
-            <div className="w-full h-72 pt-2">
+            <div className="w-full h-64 sm:h-72 pt-2">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart
                   data={simulatedSeriesData.series}
-                  margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
+                  margin={{ top: 10, right: 10, left: -15, bottom: 0 }}
                 >
                   <defs>
                     <linearGradient id="simGradient" x1="0" y1="0" x2="0" y2="1">
@@ -599,12 +600,13 @@ export const AnalyticsPage = () => {
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
-                  <XAxis dataKey="date" stroke="#64748b" fontSize={11} tickLine={false} />
+                  <XAxis dataKey="date" stroke="#64748b" fontSize={10} tickLine={false} />
                   <YAxis
                     stroke="#64748b"
-                    fontSize={11}
+                    fontSize={10}
                     tickLine={false}
                     axisLine={false}
+                    width={45}
                     tickFormatter={(v) => `₹${(v / 1000).toFixed(0)}k`}
                   />
                   <Tooltip content={<SimulatedTooltip />} />
@@ -661,17 +663,17 @@ export const AnalyticsPage = () => {
       </div>
 
       {/* Allocation Breakdown & Asset Composition */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 sm:gap-6 min-w-0">
         {/* Left: Interactive Donut Allocation Chart */}
-        <div className="lg:col-span-1 p-5 rounded-2xl bg-slate-900/80 border border-slate-800/80 flex flex-col justify-between space-y-4">
+        <div className="lg:col-span-1 p-4 sm:p-5 rounded-2xl bg-slate-900/80 border border-slate-800/80 flex flex-col justify-between space-y-4 min-w-0">
           <div>
             <div className="flex items-center justify-between gap-2">
               <h2 className="text-base font-bold text-white tracking-tight flex items-center gap-1.5">
-                <PieChartIcon className="w-4 h-4 text-emerald-400" />
+                <PieChartIcon className="w-4 h-4 text-emerald-400 shrink-0" />
                 Allocation Breakdown
               </h2>
             </div>
-            <p className="text-xs text-slate-400 mt-0.5">
+            <p className="text-xs text-slate-400 mt-0.5 leading-relaxed">
               {allocationMode === 'HOLDINGS'
                 ? 'Equities exposure (% of invested stock holdings)'
                 : 'Net capital exposure (% of portfolio including cash)'}
@@ -777,7 +779,7 @@ export const AnalyticsPage = () => {
           <div className="space-y-2 border-t border-slate-800/60 pt-3 max-h-48 overflow-y-auto">
             {chartPieData.map((item) => (
               <div key={item.name} className="flex items-center justify-between text-xs">
-                <div className="flex items-center gap-2 truncate pr-2">
+                <div className="flex items-center gap-2 truncate pr-2 min-w-0">
                   <span
                     className="w-2.5 h-2.5 rounded-full shrink-0"
                     style={{ backgroundColor: item.color }}
@@ -796,7 +798,7 @@ export const AnalyticsPage = () => {
         </div>
 
         {/* Right: Allocation Ledger Table */}
-        <div className="lg:col-span-2 p-5 rounded-2xl bg-slate-900/80 border border-slate-800/80 space-y-4">
+        <div className="lg:col-span-2 p-4 sm:p-5 rounded-2xl bg-slate-900/80 border border-slate-800/80 space-y-4 min-w-0">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div>
               <h2 className="text-base font-bold text-white tracking-tight">
@@ -806,14 +808,14 @@ export const AnalyticsPage = () => {
                 Detailed side-by-side comparison of holdings weight vs total portfolio weight
               </p>
             </div>
-            <span className="text-xs font-mono text-slate-400 bg-slate-950/80 px-2.5 py-1 rounded-lg border border-slate-800 self-start sm:self-auto">
+            <span className="text-xs font-mono text-slate-400 bg-slate-950/80 px-2.5 py-1 rounded-lg border border-slate-800 self-start sm:self-auto shrink-0">
               {allocations.holdingsCount} Positions • {allocations.sectorCount} Sectors
             </span>
           </div>
 
           {allocations.instrumentAllocations.length > 0 ? (
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs">
+              <table className="w-full text-left text-xs min-w-[560px]">
                 <thead>
                   <tr className="border-b border-slate-800 text-slate-400 uppercase font-semibold text-[10px] tracking-wider">
                     <th className="pb-3">Instrument</th>
@@ -827,7 +829,7 @@ export const AnalyticsPage = () => {
                 <tbody className="divide-y divide-slate-800/60 font-mono">
                   {allocations.instrumentAllocations.map((item) => (
                     <tr key={item.symbol} className="hover:bg-slate-800/40 transition-colors">
-                      <td className="py-3 font-bold text-white font-mono">
+                      <td className="py-3 font-bold text-white font-mono pr-2">
                         <div>
                           <span>{item.symbol}</span>
                           <span className="text-[11px] text-slate-400 font-sans block truncate max-w-[140px]">
@@ -835,16 +837,16 @@ export const AnalyticsPage = () => {
                           </span>
                         </div>
                       </td>
-                      <td className="py-3 font-sans text-slate-300">
+                      <td className="py-3 font-sans text-slate-300 pr-2">
                         <span className="px-2 py-0.5 rounded-full bg-slate-800 text-[10px] text-slate-300">
                           {item.sector}
                         </span>
                       </td>
-                      <td className="py-3 text-right text-slate-300">{item.quantity}</td>
-                      <td className="py-3 text-right text-white font-bold">
+                      <td className="py-3 text-right text-slate-300 pr-2">{item.quantity}</td>
+                      <td className="py-3 text-right text-white font-bold pr-2">
                         {formatINRFromSubunits(item.currentSubunits)}
                       </td>
-                      <td className="py-3 text-right text-emerald-400 font-bold">
+                      <td className="py-3 text-right text-emerald-400 font-bold pr-2">
                         {item.holdingsPercent.toFixed(2)}%
                       </td>
                       <td className="py-3 text-right text-slate-300">
@@ -854,13 +856,13 @@ export const AnalyticsPage = () => {
                   ))}
                   {/* Cash Line Entry */}
                   <tr className="bg-slate-950/40 text-slate-400 font-mono">
-                    <td className="py-3 font-bold text-slate-300">CASH RESERVE</td>
-                    <td className="py-3 font-sans">Liquid Balance</td>
-                    <td className="py-3 text-right">—</td>
-                    <td className="py-3 text-right text-emerald-400 font-bold">
+                    <td className="py-3 font-bold text-slate-300 pr-2">CASH RESERVE</td>
+                    <td className="py-3 font-sans pr-2">Liquid Balance</td>
+                    <td className="py-3 text-right pr-2">—</td>
+                    <td className="py-3 text-right text-emerald-400 font-bold pr-2">
                       {formatINRFromSubunits(allocations.cashSubunits)}
                     </td>
-                    <td className="py-3 text-right text-slate-500">—</td>
+                    <td className="py-3 text-right text-slate-500 pr-2">—</td>
                     <td className="py-3 text-right text-emerald-400 font-bold">
                       {allocations.cashAllocationPercent.toFixed(2)}%
                     </td>
@@ -877,11 +879,11 @@ export const AnalyticsPage = () => {
       </div>
 
       {/* Risk & Concentration Analytics Section */}
-      <div className="p-5 rounded-2xl bg-slate-900/80 border border-slate-800/80 space-y-4">
+      <div className="p-4 sm:p-5 rounded-2xl bg-slate-900/80 border border-slate-800/80 space-y-4 min-w-0">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
             <div className="flex items-center gap-2">
-              <ShieldAlert className="w-4 h-4 text-emerald-400" />
+              <ShieldAlert className="w-4 h-4 text-emerald-400 shrink-0" />
               <h2 className="text-base font-bold text-white tracking-tight">
                 Concentration &amp; Exposure Analysis
               </h2>
@@ -891,7 +893,7 @@ export const AnalyticsPage = () => {
             </p>
           </div>
 
-          <div className="flex items-center gap-2 self-start sm:self-auto">
+          <div className="flex items-center gap-2 self-start sm:self-auto shrink-0">
             <span
               className={`px-2.5 py-1 rounded-full text-xs font-bold font-mono uppercase tracking-wider ${
                 concentration.concentrationLevel === 'HIGH'
@@ -915,21 +917,21 @@ export const AnalyticsPage = () => {
         </div>
 
         {/* Metrics Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           {/* Largest Single Holding */}
-          <div className="p-4 rounded-xl bg-slate-950/60 border border-slate-800/80 space-y-1">
-            <p className="text-[11px] text-slate-400 uppercase font-semibold">
+          <div className="p-3.5 sm:p-4 rounded-xl bg-slate-950/60 border border-slate-800/80 space-y-1 min-w-0">
+            <p className="text-[11px] text-slate-400 uppercase font-semibold truncate">
               Largest Position
             </p>
             {concentration.largestPosition ? (
               <>
-                <p className="text-base font-bold text-white font-mono">
+                <p className="text-base font-bold text-white font-mono truncate">
                   {concentration.largestPosition.symbol}
                 </p>
-                <p className="text-xs text-emerald-400 font-mono font-semibold">
+                <p className="text-xs text-emerald-400 font-mono font-semibold truncate">
                   {concentration.largestHoldingPercent.toFixed(2)}% of holdings
                 </p>
-                <p className="text-[11px] text-slate-500 font-mono">
+                <p className="text-[11px] text-slate-500 font-mono truncate">
                   {formatINRFromSubunits(concentration.largestPosition.currentSubunits)} (
                   {concentration.largestPosition.portfolioPercent.toFixed(2)}% total)
                 </p>
@@ -940,10 +942,10 @@ export const AnalyticsPage = () => {
           </div>
 
           {/* Top-3 Concentration (CR3) */}
-          <div className="p-4 rounded-xl bg-slate-950/60 border border-slate-800/80 space-y-1.5">
-            <div className="flex items-center justify-between text-[11px]">
-              <span className="text-slate-400 uppercase font-semibold">Top 3 Holdings (CR3)</span>
-              <span className="text-white font-mono font-bold">
+          <div className="p-3.5 sm:p-4 rounded-xl bg-slate-950/60 border border-slate-800/80 space-y-1.5 min-w-0">
+            <div className="flex items-center justify-between text-[11px] gap-2">
+              <span className="text-slate-400 uppercase font-semibold truncate">Top 3 Holdings (CR3)</span>
+              <span className="text-white font-mono font-bold shrink-0">
                 {concentration.top3ConcentrationPercent.toFixed(1)}%
               </span>
             </div>
@@ -953,14 +955,14 @@ export const AnalyticsPage = () => {
                 style={{ width: `${Math.min(100, concentration.top3ConcentrationPercent)}%` }}
               />
             </div>
-            <p className="text-[10px] text-slate-500">
+            <p className="text-[10px] text-slate-500 truncate">
               Share of top 3 assets out of total equities
             </p>
           </div>
 
           {/* Largest Sector Exposure */}
-          <div className="p-4 rounded-xl bg-slate-950/60 border border-slate-800/80 space-y-1">
-            <p className="text-[11px] text-slate-400 uppercase font-semibold">
+          <div className="p-3.5 sm:p-4 rounded-xl bg-slate-950/60 border border-slate-800/80 space-y-1 min-w-0">
+            <p className="text-[11px] text-slate-400 uppercase font-semibold truncate">
               Largest Sector
             </p>
             {concentration.largestSector ? (
@@ -968,10 +970,10 @@ export const AnalyticsPage = () => {
                 <p className="text-base font-bold text-white truncate">
                   {concentration.largestSector.sector}
                 </p>
-                <p className="text-xs text-emerald-400 font-mono font-semibold">
+                <p className="text-xs text-emerald-400 font-mono font-semibold truncate">
                   {concentration.largestSector.holdingsPercent.toFixed(2)}% of holdings
                 </p>
-                <p className="text-[11px] text-slate-500 font-mono">
+                <p className="text-[11px] text-slate-500 font-mono truncate">
                   {concentration.largestSector.positionCount} {concentration.largestSector.positionCount === 1 ? 'position' : 'positions'}
                 </p>
               </>
@@ -981,15 +983,15 @@ export const AnalyticsPage = () => {
           </div>
 
           {/* Herfindahl-Hirschman Index (HHI) */}
-          <div className="p-4 rounded-xl bg-slate-950/60 border border-slate-800/80 space-y-1">
-            <p className="text-[11px] text-slate-400 uppercase font-semibold">
+          <div className="p-3.5 sm:p-4 rounded-xl bg-slate-950/60 border border-slate-800/80 space-y-1 min-w-0">
+            <p className="text-[11px] text-slate-400 uppercase font-semibold truncate">
               Herfindahl Index (HHI)
             </p>
-            <p className="text-base font-bold text-white font-mono">
+            <p className="text-base font-bold text-white font-mono truncate">
               {concentration.herfindahlIndex}
               <span className="text-xs font-normal text-slate-400"> / 10,000</span>
             </p>
-            <p className="text-[11px] text-slate-400">
+            <p className="text-[11px] text-slate-400 leading-snug">
               {concentration.herfindahlIndex >= 2500
                 ? 'High single-asset concentration'
                 : concentration.herfindahlIndex >= 1500

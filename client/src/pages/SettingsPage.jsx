@@ -198,35 +198,35 @@ export const SettingsPage = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5 sm:space-y-6 min-w-0">
       {/* Page Header Banner */}
-      <div className="p-6 rounded-2xl bg-gradient-to-r from-slate-900 via-slate-900 to-emerald-950/30 border border-slate-800/80 shadow-lg relative overflow-hidden">
+      <div className="p-4 sm:p-6 rounded-2xl bg-gradient-to-r from-slate-900 via-slate-900 to-emerald-950/30 border border-slate-800/80 shadow-lg relative overflow-hidden">
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
+          <div className="min-w-0">
             <div className="flex items-center gap-2 mb-1.5 flex-wrap">
-              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold tracking-wide uppercase bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5">
-                <Settings className="w-3.5 h-3.5 text-emerald-400" />
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-bold tracking-wide uppercase bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5">
+                <Settings className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
                 System Administration
               </span>
-              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono bg-slate-800 text-slate-300 border border-slate-700/60">
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-mono bg-slate-800 text-slate-300 border border-slate-700/60">
                 Workspace: Production Tier
               </span>
             </div>
-            <h1 className="text-2xl font-extrabold text-white tracking-tight">
+            <h1 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
               Platform &amp; Infrastructure Settings
             </h1>
-            <p className="text-sm text-slate-400 mt-1 max-w-2xl">
+            <p className="text-xs sm:text-sm text-slate-400 mt-1 max-w-2xl leading-relaxed">
               Configure trading engine execution parameters, risk boundaries, database synchronization, and institutional investor identity.
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 self-start md:self-auto shrink-0">
             <button
               type="button"
               onClick={handleExportCSV}
-              className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700/80 font-semibold text-xs transition-all flex items-center gap-1.5 shadow-sm"
+              className="px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700/80 font-semibold text-xs transition-all flex items-center gap-1.5 shadow-sm"
             >
-              <Download className="w-3.5 h-3.5 text-emerald-400" />
+              <Download className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
               Export Ledger CSV
             </button>
           </div>
@@ -239,14 +239,14 @@ export const SettingsPage = () => {
       {/* Toast Notification */}
       {toastMessage && (
         <div className="p-3.5 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs flex items-center justify-between gap-3 shadow-lg animate-in fade-in slide-in-from-top-2">
-          <div className="flex items-center gap-2 font-medium">
+          <div className="flex items-center gap-2 font-medium min-w-0">
             <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-            <span>{toastMessage}</span>
+            <span className="truncate">{toastMessage}</span>
           </div>
           <button
             type="button"
             onClick={() => setToastMessage(null)}
-            className="text-slate-400 hover:text-white text-xs font-semibold"
+            className="text-slate-400 hover:text-white text-xs font-semibold shrink-0"
           >
             Dismiss
           </button>
@@ -254,41 +254,41 @@ export const SettingsPage = () => {
       )}
 
       {/* Tabs Navigation */}
-      <div className="flex items-center gap-2 border-b border-slate-800 pb-2 overflow-x-auto">
+      <div className="flex items-center gap-2 border-b border-slate-800 pb-2 overflow-x-auto max-w-full">
         <button
           type="button"
           onClick={() => setActiveTab('general')}
-          className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 ${
+          className={`px-3.5 sm:px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 shrink-0 ${
             activeTab === 'general'
               ? 'bg-emerald-500 text-slate-950 shadow-md shadow-emerald-500/20'
               : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
           }`}
         >
-          <User className="w-3.5 h-3.5" />
+          <User className="w-3.5 h-3.5 shrink-0" />
           Investor Profile
         </button>
         <button
           type="button"
           onClick={() => setActiveTab('risk')}
-          className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 ${
+          className={`px-3.5 sm:px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 shrink-0 ${
             activeTab === 'risk'
               ? 'bg-emerald-500 text-slate-950 shadow-md shadow-emerald-500/20'
               : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
           }`}
         >
-          <Shield className="w-3.5 h-3.5" />
+          <Shield className="w-3.5 h-3.5 shrink-0" />
           Risk Controls &amp; Engine
         </button>
         <button
           type="button"
           onClick={() => setActiveTab('database')}
-          className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 ${
+          className={`px-3.5 sm:px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 shrink-0 ${
             activeTab === 'database'
               ? 'bg-emerald-500 text-slate-950 shadow-md shadow-emerald-500/20'
               : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
           }`}
         >
-          <Database className="w-3.5 h-3.5" />
+          <Database className="w-3.5 h-3.5 shrink-0" />
           Cloud Infrastructure
         </button>
       </div>
@@ -452,13 +452,13 @@ export const SettingsPage = () => {
                 <label className="block text-xs font-semibold text-slate-200 mb-1.5">
                   Daily Circuit Limit Price Band (±%)
                 </label>
-                <div className="grid grid-cols-4 gap-3">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
                   {['10', '15', '20', '25'].map((band) => (
                     <button
                       key={band}
                       type="button"
                       onClick={() => setRiskSettings({ ...riskSettings, circuitLimitBand: band })}
-                      className={`py-2 rounded-xl text-xs font-bold font-mono transition-all border ${
+                      className={`py-2 px-2 rounded-xl text-xs font-bold font-mono transition-all border text-center ${
                         riskSettings.circuitLimitBand === band
                           ? 'bg-emerald-500 text-slate-950 border-emerald-400 shadow-md shadow-emerald-500/20'
                           : 'bg-slate-950 text-slate-300 border-slate-800 hover:border-slate-700'
@@ -564,10 +564,10 @@ export const SettingsPage = () => {
       {activeTab === 'database' && (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2 p-6 rounded-2xl bg-slate-900/80 border border-slate-800/80 space-y-6">
-            <div className="flex items-center justify-between">
-              <div>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="min-w-0">
                 <h2 className="text-base font-bold text-white tracking-tight flex items-center gap-2">
-                  <Database className="w-4 h-4 text-emerald-400" />
+                  <Database className="w-4 h-4 text-emerald-400 shrink-0" />
                   Cloud Infrastructure Health &amp; Diagnostics
                 </h2>
                 <p className="text-xs text-slate-400 mt-0.5">
@@ -578,7 +578,7 @@ export const SettingsPage = () => {
                 type="button"
                 onClick={runDiagnostics}
                 disabled={diagnosticStatus.testing}
-                className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-semibold transition-all flex items-center gap-1.5"
+                className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-semibold transition-all flex items-center gap-1.5 self-start sm:self-auto shrink-0"
               >
                 <Activity className={`w-3.5 h-3.5 ${diagnosticStatus.testing ? 'animate-spin text-emerald-400' : ''}`} />
                 <span>Probe Network</span>
@@ -598,7 +598,7 @@ export const SettingsPage = () => {
               <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800">
                 <span className="text-[11px] text-slate-500 uppercase font-semibold">MongoDB Atlas</span>
                 <p className="text-base font-bold text-emerald-400 font-mono mt-1 flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                   {diagnosticStatus.dbStatus.toUpperCase()}
                 </p>
                 <p className="text-[10px] text-slate-500 mt-0.5">Replica Set • Multi-Doc ACID</p>
@@ -615,26 +615,26 @@ export const SettingsPage = () => {
               </div>
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-3 min-w-0">
               <h3 className="text-xs font-semibold text-slate-300 uppercase tracking-wider">
                 Active Endpoint URLs
               </h3>
-              <div className="p-3.5 rounded-xl bg-slate-950/90 border border-slate-800 font-mono text-xs space-y-1.5">
-                <div className="flex justify-between items-center text-slate-400">
-                  <span>API Base:</span>
-                  <span className="text-emerald-400">{API_BASE_URL}</span>
+              <div className="p-3.5 rounded-xl bg-slate-950/90 border border-slate-800 font-mono text-xs space-y-2">
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 text-slate-400">
+                  <span className="shrink-0 font-medium">API Base:</span>
+                  <span className="text-emerald-400 break-all">{API_BASE_URL}</span>
                 </div>
-                <div className="flex justify-between items-center text-slate-400">
-                  <span>Liveness Probe:</span>
-                  <span className="text-slate-300">{API_BASE_URL}/health</span>
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 text-slate-400">
+                  <span className="shrink-0 font-medium">Liveness Probe:</span>
+                  <span className="text-slate-300 break-all">{API_BASE_URL}/health</span>
                 </div>
-                <div className="flex justify-between items-center text-slate-400">
-                  <span>Database Readiness:</span>
-                  <span className="text-slate-300">{API_BASE_URL}/health/database</span>
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 text-slate-400">
+                  <span className="shrink-0 font-medium">Database Readiness:</span>
+                  <span className="text-slate-300 break-all">{API_BASE_URL}/health/database</span>
                 </div>
-                <div className="flex justify-between items-center text-slate-400">
-                  <span>Valuation Snapshots:</span>
-                  <span className="text-slate-300">{API_BASE_URL}/portfolio/snapshots</span>
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 text-slate-400">
+                  <span className="shrink-0 font-medium">Valuation Snapshots:</span>
+                  <span className="text-slate-300 break-all">{API_BASE_URL}/portfolio/snapshots</span>
                 </div>
               </div>
             </div>

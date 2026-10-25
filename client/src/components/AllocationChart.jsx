@@ -60,7 +60,7 @@ export const AllocationChart = () => {
   }, [portfolioSummary]);
 
   return (
-    <div className="p-5 rounded-xl bg-slate-900/80 border border-slate-800/80 flex flex-col justify-between">
+    <div className="p-4 sm:p-5 rounded-xl bg-slate-900/80 border border-slate-800/80 flex flex-col justify-between min-w-0">
       <div>
         <h2 className="text-base font-bold text-white tracking-tight">Asset Allocation</h2>
         <p className="text-xs text-slate-400">Class &amp; sector breakdown by market exposure</p>

@@ -121,35 +121,35 @@ export const HoldingsPage = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5 sm:space-y-6 min-w-0">
       {/* Page Header & Summary Banner */}
-      <div className="p-6 rounded-2xl bg-gradient-to-r from-slate-900 via-slate-900 to-emerald-950/30 border border-slate-800/80 shadow-lg relative overflow-hidden">
+      <div className="p-4 sm:p-6 rounded-2xl bg-gradient-to-r from-slate-900 via-slate-900 to-emerald-950/30 border border-slate-800/80 shadow-lg relative overflow-hidden">
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
-            <div className="flex items-center gap-2 mb-1.5">
-              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold tracking-wide uppercase bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5">
-                <PieChart className="w-3.5 h-3.5" />
+          <div className="min-w-0">
+            <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-bold tracking-wide uppercase bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5">
+                <PieChart className="w-3.5 h-3.5 shrink-0" />
                 Asset Ledger
               </span>
-              <span className="text-xs text-slate-400 font-mono">
+              <span className="text-[11px] sm:text-xs text-slate-400 font-mono">
                 {isSyncedWithBackend ? 'Atlas Synced' : 'Optimistic Client State'}
               </span>
             </div>
-            <h1 className="text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
+            <h1 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
               Multi-Asset Holdings &amp; Audit Ledger
             </h1>
-            <p className="text-sm text-slate-400 mt-1 max-w-2xl">
+            <p className="text-xs sm:text-sm text-slate-400 mt-1 max-w-2xl leading-relaxed">
               Track live valuations, cost basis allocations, and complete order execution history. All figures computed in sub-cent integer paise.
             </p>
           </div>
 
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2.5 self-start md:self-auto shrink-0 flex-wrap">
             <button
               type="button"
               onClick={refreshPortfolio}
               disabled={isLoading}
               title="Refresh ledger state from server"
-              className="p-2.5 rounded-xl bg-slate-950/80 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-white transition-all flex items-center gap-1.5 text-xs font-semibold"
+              className="p-2 sm:p-2.5 rounded-xl bg-slate-950/80 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-white transition-all flex items-center gap-1.5 text-xs font-semibold"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin text-emerald-400' : ''}`} />
               <span className="hidden sm:inline">Sync Ledger</span>
@@ -157,9 +157,9 @@ export const HoldingsPage = () => {
             <button
               type="button"
               onClick={() => handleOpenTrade(holdings[0] || null)}
-              className="px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs uppercase tracking-wider transition-all shadow-md shadow-emerald-500/20 flex items-center gap-1.5"
+              className="px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs uppercase tracking-wider transition-all shadow-md shadow-emerald-500/20 flex items-center gap-1.5"
             >
-              <ShoppingBag className="w-4 h-4" />
+              <ShoppingBag className="w-4 h-4 shrink-0" />
               New Order
             </button>
           </div>
@@ -171,15 +171,15 @@ export const HoldingsPage = () => {
 
       {/* Error Alert State */}
       {fetchError && (
-        <div className="p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 flex items-center justify-between gap-3 text-xs">
-          <div className="flex items-center gap-2">
+        <div className="p-3.5 sm:p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 flex items-center justify-between gap-3 text-xs">
+          <div className="flex items-center gap-2 min-w-0">
             <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />
-            <span>{fetchError}</span>
+            <span className="truncate">{fetchError}</span>
           </div>
           <button
             type="button"
             onClick={refreshPortfolio}
-            className="px-3 py-1 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 text-rose-200 font-semibold transition-colors"
+            className="px-3 py-1 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 text-rose-200 font-semibold transition-colors shrink-0"
           >
             Retry Connection
           </button>
@@ -187,42 +187,43 @@ export const HoldingsPage = () => {
       )}
 
       {/* Valuation Metrics Bar */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800/80">
-          <p className="text-[11px] text-slate-400 uppercase font-semibold flex items-center gap-1">
-            <DollarSign className="w-3.5 h-3.5 text-slate-500" /> Current Holdings Value
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3">
+        <div className="p-3.5 sm:p-4 rounded-xl bg-slate-900/80 border border-slate-800/80 min-w-0">
+          <p className="text-[10px] sm:text-[11px] text-slate-400 uppercase font-semibold flex items-center gap-1 truncate">
+            <DollarSign className="w-3.5 h-3.5 text-slate-500 shrink-0" /> Current Value
           </p>
-          <p className="text-lg font-bold text-white font-mono mt-1">
+          <p className="text-base sm:text-lg font-bold text-white font-mono mt-1 truncate" title={portfolioSummary?.formattedHoldingsValue}>
             {portfolioSummary?.formattedHoldingsValue || '₹0.00'}
           </p>
-          <p className="text-[11px] text-slate-500 mt-0.5">
-            Across {holdings.length} {holdings.length === 1 ? 'position' : 'positions'}
+          <p className="text-[10px] sm:text-[11px] text-slate-500 mt-0.5 truncate">
+            {holdings.length} {holdings.length === 1 ? 'position' : 'positions'}
           </p>
         </div>
 
-        <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800/80">
-          <p className="text-[11px] text-slate-400 uppercase font-semibold flex items-center gap-1">
-            <Layers className="w-3.5 h-3.5 text-slate-500" /> Invested Capital
+        <div className="p-3.5 sm:p-4 rounded-xl bg-slate-900/80 border border-slate-800/80 min-w-0">
+          <p className="text-[10px] sm:text-[11px] text-slate-400 uppercase font-semibold flex items-center gap-1 truncate">
+            <Layers className="w-3.5 h-3.5 text-slate-500 shrink-0" /> Invested Capital
           </p>
-          <p className="text-lg font-bold text-slate-200 font-mono mt-1">
+          <p className="text-base sm:text-lg font-bold text-slate-200 font-mono mt-1 truncate" title={portfolioSummary?.formattedTotalInvested}>
             {portfolioSummary?.formattedTotalInvested || '₹0.00'}
           </p>
-          <p className="text-[11px] text-slate-500 mt-0.5">Total purchase cost basis</p>
+          <p className="text-[10px] sm:text-[11px] text-slate-500 mt-0.5 truncate">Total purchase cost</p>
         </div>
 
-        <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800/80">
-          <p className="text-[11px] text-slate-400 uppercase font-semibold flex items-center gap-1">
-            <TrendingUp className="w-3.5 h-3.5 text-slate-500" /> Total Unrealized P&amp;L
+        <div className="p-3.5 sm:p-4 rounded-xl bg-slate-900/80 border border-slate-800/80 min-w-0">
+          <p className="text-[10px] sm:text-[11px] text-slate-400 uppercase font-semibold flex items-center gap-1 truncate">
+            <TrendingUp className="w-3.5 h-3.5 text-slate-500 shrink-0" /> Unrealized P&amp;L
           </p>
           <p
-            className={`text-lg font-bold font-mono mt-1 ${
+            className={`text-base sm:text-lg font-bold font-mono mt-1 truncate ${
               portfolioSummary?.isPnLPositive ? 'text-emerald-400' : 'text-rose-400'
             }`}
+            title={portfolioSummary?.formattedUnrealizedPnL}
           >
             {portfolioSummary?.formattedUnrealizedPnL || '₹0.00'}
           </p>
           <p
-            className={`text-[11px] font-semibold font-mono ${
+            className={`text-[10px] sm:text-[11px] font-semibold font-mono truncate ${
               portfolioSummary?.isPnLPositive ? 'text-emerald-400/90' : 'text-rose-400/90'
             }`}
           >
@@ -230,19 +231,19 @@ export const HoldingsPage = () => {
           </p>
         </div>
 
-        <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800/80">
-          <p className="text-[11px] text-slate-400 uppercase font-semibold flex items-center gap-1">
-            <Wallet className="w-3.5 h-3.5 text-slate-500" /> Deployable Cash
+        <div className="p-3.5 sm:p-4 rounded-xl bg-slate-900/80 border border-slate-800/80 min-w-0">
+          <p className="text-[10px] sm:text-[11px] text-slate-400 uppercase font-semibold flex items-center gap-1 truncate">
+            <Wallet className="w-3.5 h-3.5 text-slate-500 shrink-0" /> Deployable Cash
           </p>
-          <p className="text-lg font-bold text-emerald-400 font-mono mt-1">
+          <p className="text-base sm:text-lg font-bold text-emerald-400 font-mono mt-1 truncate" title={portfolioSummary?.formattedCashBalance}>
             {portfolioSummary?.formattedCashBalance || '₹0.00'}
           </p>
-          <p className="text-[11px] text-slate-500 mt-0.5">Liquid balance for new buys</p>
+          <p className="text-[10px] sm:text-[11px] text-slate-500 mt-0.5 truncate">Liquid cash balance</p>
         </div>
       </div>
 
       {/* Main Holdings Section */}
-      <div className="p-5 rounded-2xl bg-slate-900/80 border border-slate-800/80 space-y-4">
+      <div className="p-4 sm:p-5 rounded-2xl bg-slate-900/80 border border-slate-800/80 space-y-4 min-w-0">
         {/* Controls Toolbar: Search, Filter, Sort, Clear */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 pt-1">
           <div className="flex flex-col sm:flex-row sm:items-center gap-2.5 flex-1">
@@ -332,7 +333,7 @@ export const HoldingsPage = () => {
           <>
             {/* Desktop Table View (md and up) */}
             <div className="hidden md:block overflow-x-auto">
-              <table className="w-full text-left text-xs">
+              <table className="w-full text-left text-xs min-w-[720px]">
                 <thead>
                   <tr className="border-b border-slate-800 text-slate-400 uppercase font-semibold text-[10px] tracking-wider">
                     <th className="pb-3 font-semibold">Instrument</th>
@@ -567,11 +568,11 @@ export const HoldingsPage = () => {
       </div>
 
       {/* Transaction History Section */}
-      <div className="p-5 rounded-2xl bg-slate-900/80 border border-slate-800/80 space-y-4">
+      <div className="p-4 sm:p-5 rounded-2xl bg-slate-900/80 border border-slate-800/80 space-y-4 min-w-0">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <div className="flex items-center gap-2">
-              <History className="w-4 h-4 text-emerald-400" />
+              <History className="w-4 h-4 text-emerald-400 shrink-0" />
               <h2 className="text-base font-bold text-white tracking-tight">
                 Order Execution &amp; Transaction Ledger
               </h2>
@@ -582,7 +583,7 @@ export const HoldingsPage = () => {
           </div>
 
           {/* Filter Tabs by Side */}
-          <div className="flex items-center gap-1 bg-slate-950/80 p-1 rounded-xl border border-slate-800 self-start sm:self-auto">
+          <div className="flex items-center gap-1 bg-slate-950/80 p-1 rounded-xl border border-slate-800 self-start sm:self-auto shrink-0">
             {['ALL', 'BUY', 'SELL'].map((side) => (
               <button
                 key={side}
@@ -601,36 +602,114 @@ export const HoldingsPage = () => {
         </div>
 
         {filteredTransactions && filteredTransactions.length > 0 ? (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
-              <thead>
-                <tr className="border-b border-slate-800 text-slate-400 uppercase font-semibold text-[10px] tracking-wider">
-                  <th className="pb-3 font-semibold">Side</th>
-                  <th className="pb-3 font-semibold">Instrument</th>
-                  <th className="pb-3 font-semibold text-right">Quantity</th>
-                  <th className="pb-3 font-semibold text-right">Execution Price</th>
-                  <th className="pb-3 font-semibold text-right">Total Trade Value</th>
-                  <th className="pb-3 font-semibold text-center">Status</th>
-                  <th className="pb-3 font-semibold text-right">Timestamp</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-800/60 font-mono">
-                {filteredTransactions.map((tx) => {
-                  const isBuy = tx.type === 'BUY';
-                  const dateStr = tx.timestamp
-                    ? new Date(tx.timestamp).toLocaleString('en-IN', {
-                        month: 'short',
-                        day: 'numeric',
-                        year: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit',
-                      })
-                    : '—';
+          <>
+            {/* Desktop & Tablet Table (md and up) */}
+            <div className="hidden md:block overflow-x-auto">
+              <table className="w-full text-left text-xs min-w-[650px]">
+                <thead>
+                  <tr className="border-b border-slate-800 text-slate-400 uppercase font-semibold text-[10px] tracking-wider">
+                    <th className="pb-3 font-semibold">Side</th>
+                    <th className="pb-3 font-semibold">Instrument</th>
+                    <th className="pb-3 font-semibold text-right">Quantity</th>
+                    <th className="pb-3 font-semibold text-right">Execution Price</th>
+                    <th className="pb-3 font-semibold text-right">Total Trade Value</th>
+                    <th className="pb-3 font-semibold text-center">Status</th>
+                    <th className="pb-3 font-semibold text-right">Timestamp</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-800/60 font-mono">
+                  {filteredTransactions.map((tx) => {
+                    const isBuy = tx.type === 'BUY';
+                    const dateStr = tx.timestamp
+                      ? new Date(tx.timestamp).toLocaleString('en-IN', {
+                          month: 'short',
+                          day: 'numeric',
+                          year: 'numeric',
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        })
+                      : '—';
 
-                  return (
-                    <tr key={tx._id || tx.idempotencyKey || tx.id} className="hover:bg-slate-800/40 transition-colors">
-                      {/* Side */}
-                      <td className="py-3">
+                    return (
+                      <tr key={tx._id || tx.idempotencyKey || tx.id} className="hover:bg-slate-800/40 transition-colors">
+                        {/* Side */}
+                        <td className="py-3">
+                          <span
+                            className={`px-2 py-0.5 rounded text-[10px] font-bold tracking-wide uppercase ${
+                              isBuy
+                                ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                                : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
+                            }`}
+                          >
+                            {tx.type}
+                          </span>
+                        </td>
+
+                        {/* Symbol */}
+                        <td className="py-3 font-bold text-white font-mono">
+                          {tx.symbol}
+                        </td>
+
+                        {/* Quantity */}
+                        <td className="py-3 text-right text-slate-200">
+                          {tx.quantity} {tx.quantity === 1 ? 'share' : 'shares'}
+                        </td>
+
+                        {/* Execution Price */}
+                        <td className="py-3 text-right text-slate-300">
+                          {formatINRFromSubunits(tx.executionPricePaise || tx.pricePerUnit || 0)}
+                        </td>
+
+                        {/* Total Value */}
+                        <td className="py-3 text-right font-bold text-slate-200">
+                          {formatINRFromSubunits(tx.totalValuePaise || tx.totalAmount || 0)}
+                        </td>
+
+                        {/* Status */}
+                        <td className="py-3 text-center">
+                          {tx.status === 'COMPLETED' ? (
+                            <span className="inline-flex items-center gap-1 text-emerald-400 text-[11px] font-semibold">
+                              <CheckCircle2 className="w-3.5 h-3.5" /> Done
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center gap-1 text-amber-400 text-[11px] font-semibold">
+                              <AlertCircle className="w-3.5 h-3.5" /> {tx.status || 'Pending'}
+                            </span>
+                          )}
+                        </td>
+
+                        {/* Timestamp */}
+                        <td className="py-3 text-right text-slate-400 text-[11px] font-sans">
+                          {dateStr}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Mobile Transaction Cards (< md) */}
+            <div className="md:hidden space-y-3 font-mono">
+              {filteredTransactions.map((tx) => {
+                const isBuy = tx.type === 'BUY';
+                const dateStr = tx.timestamp
+                  ? new Date(tx.timestamp).toLocaleString('en-IN', {
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric',
+                      hour: '2-digit',
+                      minute: '2-digit',
+                    })
+                  : '—';
+
+                return (
+                  <div
+                    key={tx._id || tx.idempotencyKey || tx.id}
+                    className="p-3.5 rounded-xl bg-slate-950/60 border border-slate-800 space-y-2.5 text-xs"
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-2">
                         <span
                           className={`px-2 py-0.5 rounded text-[10px] font-bold tracking-wide uppercase ${
                             isBuy
@@ -640,30 +719,9 @@ export const HoldingsPage = () => {
                         >
                           {tx.type}
                         </span>
-                      </td>
-
-                      {/* Symbol */}
-                      <td className="py-3 font-bold text-white font-mono">
-                        {tx.symbol}
-                      </td>
-
-                      {/* Quantity */}
-                      <td className="py-3 text-right text-slate-200">
-                        {tx.quantity} {tx.quantity === 1 ? 'share' : 'shares'}
-                      </td>
-
-                      {/* Execution Price */}
-                      <td className="py-3 text-right text-slate-300">
-                        {formatINRFromSubunits(tx.executionPricePaise || tx.pricePerUnit || 0)}
-                      </td>
-
-                      {/* Total Value */}
-                      <td className="py-3 text-right font-bold text-slate-200">
-                        {formatINRFromSubunits(tx.totalValuePaise || tx.totalAmount || 0)}
-                      </td>
-
-                      {/* Status */}
-                      <td className="py-3 text-center">
+                        <span className="font-bold text-white font-mono text-sm">{tx.symbol}</span>
+                      </div>
+                      <div>
                         {tx.status === 'COMPLETED' ? (
                           <span className="inline-flex items-center gap-1 text-emerald-400 text-[11px] font-semibold">
                             <CheckCircle2 className="w-3.5 h-3.5" /> Done
@@ -673,18 +731,33 @@ export const HoldingsPage = () => {
                             <AlertCircle className="w-3.5 h-3.5" /> {tx.status || 'Pending'}
                           </span>
                         )}
-                      </td>
+                      </div>
+                    </div>
 
-                      {/* Timestamp */}
-                      <td className="py-3 text-right text-slate-400 text-[11px] font-sans">
-                        {dateStr}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+                    <div className="grid grid-cols-2 gap-2 text-[11px] pt-2 border-t border-slate-800/80">
+                      <div>
+                        <span className="text-slate-500 text-[10px] uppercase font-sans">Shares &amp; Price</span>
+                        <p className="text-slate-200 font-semibold mt-0.5">
+                          {tx.quantity} {tx.quantity === 1 ? 'share' : 'shares'} @ {formatINRFromSubunits(tx.executionPricePaise || tx.pricePerUnit || 0)}
+                        </p>
+                      </div>
+                      <div className="text-right">
+                        <span className="text-slate-500 text-[10px] uppercase font-sans">Total Value</span>
+                        <p className="text-white font-bold mt-0.5">
+                          {formatINRFromSubunits(tx.totalValuePaise || tx.totalAmount || 0)}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="text-[10px] text-slate-500 font-sans pt-1 border-t border-slate-800/40 flex justify-between items-center">
+                      <span>Execution Date</span>
+                      <span>{dateStr}</span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </>
         ) : (
           <div className="py-8 text-center text-slate-500 text-xs">
             No {txFilterSide === 'ALL' ? '' : `${txFilterSide} `}transactions recorded in ledger.
