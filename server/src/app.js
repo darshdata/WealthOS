@@ -4,15 +4,29 @@ import apiRoutes from './routes/index.js';
 
 const app = express();
 
-// Configure CORS for local development client
-const allowedOrigin = process.env.CLIENT_URL || 'http://localhost:5173';
+// Configure CORS for client frontends and local dev
+const configuredClientUrl = process.env.CLIENT_URL;
 
 app.use(
   cors({
-    origin: allowedOrigin,
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps, curl, or same-origin)
+      if (!origin) return callback(null, true);
+      if (
+        !configuredClientUrl ||
+        configuredClientUrl === '*' ||
+        origin === configuredClientUrl ||
+        origin.includes('localhost') ||
+        origin.includes('127.0.0.1') ||
+        origin.endsWith('.vercel.app')
+      ) {
+        return callback(null, true);
+      }
+      return callback(null, true);
+    },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'x-user-id', 'x-admin-key'],
   })
 );
 
